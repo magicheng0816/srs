@@ -816,6 +816,9 @@ int SrsServer::http_handle()
     if ((ret = http_api_mux->handle("/api/v1/tests/redirects", new SrsHttpRedirectHandler("/api/v1/tests/errors", SRS_CONSTS_HTTP_MovedPermanently))) != ERROR_SUCCESS) {
         return ret;
     }
+    if ((ret = http_api_mux->handle("/api/v1/hls2rtmp", new SrsGoHls2Rtmp())) != ERROR_SUCCESS) {
+        return ret;
+    }    
     // test the http vhost.
     if ((ret = http_api_mux->handle("error.srs.com/api/v1/tests/errors", new SrsGoApiError())) != ERROR_SUCCESS) {
         return ret;

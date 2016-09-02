@@ -186,6 +186,15 @@ public:
     virtual int serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r);
 };
 
+class SrsGoHls2Rtmp : public ISrsHttpHandler
+{
+public:
+    SrsGoHls2Rtmp();
+    virtual ~SrsGoHls2Rtmp();
+public:
+    virtual int serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r);
+};
+
 class SrsHttpApi : public SrsConnection
 {
 private:

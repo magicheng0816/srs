@@ -838,6 +838,78 @@ int SrsGoApiClients::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
     return ret;
 }
 
+
+SrsGoHls2Rtmp::SrsGoHls2Rtmp()
+{
+}
+
+SrsGoHls2Rtmp::~SrsGoHls2Rtmp()
+{
+}
+
+int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
+{
+    int ret = ERROR_SUCCESS;
+
+    std::string body;
+    if ((ret = r->body_read_all(body)) != ERROR_SUCCESS) {
+        srs_error("read client body error");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+    
+    // should never be empty.
+    if (body.empty()) {
+        srs_error("client body is empty");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+    
+    // parse string res to json.
+    SrsJsonAny* info = SrsJsonAny::loads((char*)body.c_str());
+    if (!info) {
+        srs_error("parse client body error1");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+    SrsAutoFree(SrsJsonAny, info);
+    
+    // response error code in string.
+    if (!info->is_object()) {
+        srs_error("parse client body error2");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+    
+    // response standard object, format in json: {"code": 0, "data": ""}
+    SrsJsonObject* req_info = info->to_object();
+    
+    SrsJsonAny* req_cmd = NULL;
+    if ((req_cmd = req_info->ensure_property_integer("cmd")) == NULL) {
+        srs_error("client body is no cmd param");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+
+    SrsJsonAny* req_input = NULL;
+    if ((req_input = req_info->ensure_property_integer("input")) == NULL) {
+        srs_error("client body is no input param");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+
+    SrsJsonAny* req_output = NULL;
+    if ((req_output = req_info->ensure_property_integer("output")) == NULL) {
+        srs_error("client body is no output param");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+
+    SrsHls2Rtmp hls2rtmp = new SrsHls2Rtmp();
+    if (ERROR_SUCCESS != hls2rtmp.initialize(req_input.to_str(), req_output.to_str())) {
+        srs_error("client params is invalid");
+        delete hls2rtmp;
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    }
+
+    hls2rtmp->start();
+    
+    return ERROR_SUCCESS;
+}
+
 SrsGoApiError::SrsGoApiError()
 {
 }
