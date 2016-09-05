@@ -163,7 +163,7 @@ private:
     SrsReusableThread* pthread;
     SrsHttpUri hls_uri;
     SrsHttpUri rtmp_uri;
-    SrsIngestSrsContext ingest_context;
+    SrsIngestSrsContext* ingest_context;
     
 public:
     SrsHls2Rtmp();

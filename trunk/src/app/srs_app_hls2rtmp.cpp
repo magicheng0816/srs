@@ -1192,7 +1192,7 @@ int proxy_hls2rtmp(string hls, string rtmp)
     return ret;
 }
 
-SrsHls2Rtmp::SrsHls2Rtmp(string hlsuri, string rtmpuri)
+SrsHls2Rtmp::SrsHls2Rtmp()
 {
     pthread = new SrsReusableThread("hls2rtmp", this);        
 }
@@ -1242,7 +1242,7 @@ void SrsHls2Rtmp::stop()
 
 int SrsHls2Rtmp::cycle()
 {
-    return ingest_context.proxy();
+    return ingest_context->proxy();
 }
 
 void SrsHls2Rtmp::on_thread_stop()
