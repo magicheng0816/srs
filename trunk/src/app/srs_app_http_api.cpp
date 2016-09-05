@@ -850,6 +850,7 @@ SrsGoHls2Rtmp::~SrsGoHls2Rtmp()
 
 int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
 {
+#if 0
     int ret = ERROR_SUCCESS;
 
     std::string body;
@@ -898,9 +899,10 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         srs_error("client body is no output param");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
-
+    //(req_input->to_str(), req_output->to_str())
+#endif
     SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
-    if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str())) {
+    if (ERROR_SUCCESS != hls2rtmp->initialize("http://125.39.12.12/m3u8/cctv5_1300/desc.m3u8", "rtmp://10.125.89.9:1936/live/gscstream")) {
         srs_error("client params is invalid");
         delete hls2rtmp;
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
