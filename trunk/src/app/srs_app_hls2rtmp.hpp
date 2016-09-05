@@ -155,7 +155,7 @@ public:
     SrsIngestSrsContext(SrsHttpUri* hls, SrsHttpUri* rtmp);
     virtual ~SrsIngestSrsContext();
     virtual int proxy();
-}
+};
 
 class SrsHls2Rtmp : public ISrsReusableThreadHandler
 {
@@ -173,7 +173,7 @@ public:
     virtual void stop();
     virtual int cycle();
     virtual void on_thread_stop();   
-}
+};
 
 #endif
 #endif
