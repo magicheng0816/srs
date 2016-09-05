@@ -941,7 +941,7 @@ int SrsTsAdaptationField::decode(SrsStream* stream)
     if (packet->adaption_field_control == SrsTsAdaptationFieldTypeAdaptionOnly && adaption_field_length != 183) {
         ret = ERROR_STREAM_CASTER_TS_AF;
         srs_error("ts: demux af length failed, must be 183, actual=%d. ret=%d", adaption_field_length, ret);
-        return ret;
+        //return ret;
     }
     
     // no adaptation field.
