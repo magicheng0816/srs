@@ -1118,7 +1118,7 @@ int SrsTsAdaptationField::decode(SrsStream* stream)
         transport_private_data_flag, adaptation_field_extension_flag, adaptation_field_extension_length, program_clock_reference_base, 
         program_clock_reference_extension, original_program_clock_reference_base, original_program_clock_reference_extension);
 
-    return ret;
+    return ERROR_SUCCESS;
 }
 
 int SrsTsAdaptationField::size()
