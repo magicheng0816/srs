@@ -4,7 +4,8 @@
 #ifdef SRS_AUTO_INGEST
 
 #include <srs_core.hpp>
-
+#include <srs_kernel_ts.hpp>
+#include <srs_raw_avc.hpp>
 
 class ISrsAacHandler
 {
@@ -154,7 +155,7 @@ public:
     SrsIngestSrsContext(SrsHttpUri* hls, SrsHttpUri* rtmp);
     virtual ~SrsIngestSrsContext();
     virtual int proxy();
-};
+}
 
 class SrsHls2Rtmp : public ISrsReusableThreadHandler
 {
