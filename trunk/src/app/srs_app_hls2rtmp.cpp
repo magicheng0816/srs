@@ -1215,7 +1215,7 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri)
         return ret;
     }
 
-    context = new SrsIngestSrsContext(&hls_uri, &rtmp_uri);
+    ingest_context = new SrsIngestSrsContext(&hls_uri, &rtmp_uri);
     
     return ERROR_SUCCESS;
 }
@@ -1241,7 +1241,7 @@ void SrsHls2Rtmp::stop()
 
 int SrsHls2Rtmp::cycle()
 {
-    return context.proxy();
+    return ingest_context.proxy();
 }
 
 void SrsHls2Rtmp::on_thread_stop()

@@ -136,7 +136,7 @@ int SrsHttpClient::get(string path, std::string req, ISrsHttpMessage** ppmsg)
         << "Host: " << host << SRS_HTTP_CRLF
         << "Connection: Keep-Alive" << SRS_HTTP_CRLF
         << "Content-Length: " << std::dec << req.length() << SRS_HTTP_CRLF
-        << "User-Agent: " << RTMP_SIG_SRS_NAME << RTMP_SIG_SRS_VERSION << SRS_HTTP_CRLF
+        << "User-Agent: owninneragent" << SRS_HTTP_CRLF
         << "Content-Type: application/json" << SRS_HTTP_CRLF
         << SRS_HTTP_CRLF
         << req;
