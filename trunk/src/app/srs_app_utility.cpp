@@ -47,6 +47,7 @@ using namespace std;
 #include <srs_protocol_json.hpp>
 #include <srs_kernel_stream.hpp>
 #include <srs_kernel_utility.hpp>
+#include <openssl/md5.h> 
 
 // the longest time to wait for a process to quit.
 #define SRS_PROCESS_QUIT_TIMEOUT_MS 1000
@@ -1539,3 +1540,20 @@ void srs_api_dump_summaries(std::stringstream& ss)
         << SRS_JOBJECT_END;
 }
 
+string srs_get_md5(char* data, int len)
+{
+    unsigned char md5[16 + 1]={0}; 
+    char  tmp[32 + 1] = {0};
+    
+    MD5_CTX c;
+    MD5_Init(&c);
+    MD5_Update(&c, data, len);
+    MD5_Final(md5,&c);  
+
+
+    for (i = 0; i < 16; ++i) {
+        sprintf((char *)tmp + (2 * i), "%02x", md5[i]);
+    }
+
+    return string(tmp);
+}
