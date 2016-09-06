@@ -910,7 +910,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
 
     hls2rtmp->start();
     
-    return ERROR_SUCCESS;
+    return srs_go_http_error(w, SRS_CONSTS_HTTP_OK);;
 }
 
 SrsGoApiError::SrsGoApiError()
