@@ -4,8 +4,8 @@
 class ISrsAppTransferTask
 {
 public:
-    virtual string getId();
-    virtual string getContent();
+    virtual string getId() = 0;
+    virtual string getContent() = 0;
 };
 
 #endif
