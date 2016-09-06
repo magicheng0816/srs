@@ -328,9 +328,9 @@ int SrsIngestSrsInput::parseM3u8(SrsHttpUri* url, double& td, double& duration)
         
         // expect next line is url.
         std::string ts_url;
-        if ((pos = body.find("\n")) != string::npos) {
+        if ((pos = body.find("\r\n")) != string::npos) {
             ts_url = body.substr(0, pos);
-            body = body.substr(pos + 1);
+            body = body.substr(pos + 2);
         } else {
             srs_warn("ts entry unexpected eof, inf=%s", line.c_str());
             break;
