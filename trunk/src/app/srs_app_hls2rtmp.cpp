@@ -1164,37 +1164,6 @@ int SrsIngestSrsContext::proxy() {
     return ret;
 }
 
-int proxy_hls2rtmp(string hls, string rtmp)
-{
-    int ret = ERROR_SUCCESS;
-    
-    // init st.
-    if ((ret = srs_st_init()) != ERROR_SUCCESS) {
-        srs_error("init st failed. ret=%d", ret);
-        return ret;
-    }
-    
-    SrsHttpUri hls_uri, rtmp_uri;
-    if ((ret = hls_uri.initialize(hls)) != ERROR_SUCCESS) {
-        srs_error("hls uri invalid. ret=%d", ret);
-        return ret;
-    }
-    if ((ret = rtmp_uri.initialize(rtmp)) != ERROR_SUCCESS) {
-        srs_error("rtmp uri invalid. ret=%d", ret);
-        return ret;
-    }
-    
-    SrsIngestSrsContext context(&hls_uri, &rtmp_uri);
-    for (;;) {
-        if ((ret = context.proxy()) != ERROR_SUCCESS) {
-            srs_error("proxy hls to rtmp failed. ret=%d", ret);
-            return ret;
-        }
-    }
-    
-    return ret;
-}
-
 SrsHls2Rtmp::SrsHls2Rtmp()
 {
     pthread = new SrsReusableThread("hls2rtmp", this);        

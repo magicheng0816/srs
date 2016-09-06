@@ -47,6 +47,7 @@ using namespace std;
 #include <srs_rtmp_amf0.hpp>
 #include <srs_raw_avc.hpp>
 #include <srs_app_http_conn.hpp>
+#include <srs_app_hls2rtmp.hpp>
 
 // pre-declare
 int proxy_hls2rtmp(std::string hls, std::string rtmp);
@@ -126,7 +127,7 @@ int main(int argc, char** argv)
     
     return proxy_hls2rtmp(in_hls_url, out_rtmp_url);
 }
-
+#if 0
 class ISrsAacHandler
 {
 public:
@@ -1372,7 +1373,7 @@ public:
         return ret;
     }
 };
-
+#endif
 int proxy_hls2rtmp(string hls, string rtmp)
 {
     int ret = ERROR_SUCCESS;
