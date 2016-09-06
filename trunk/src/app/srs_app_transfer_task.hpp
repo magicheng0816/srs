@@ -7,8 +7,8 @@ public:
     ISrsAppTransferTask();
     virtual ~ISrsAppTransferTask();
 public:
-    virtual getId();
-    virtual getContent();
+    virtual string getId();
+    virtual string getContent();
 };
 
 #endif
