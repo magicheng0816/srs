@@ -689,7 +689,7 @@ extern bool srs_is_boolean(const std::string& str);
 // dump summaries for /api/v1/summaries.
 extern void srs_api_dump_summaries(std::stringstream& ss);
 
-extern string srs_get_md5(char* data, int len);
+extern std::string srs_get_md5(char* data, int len);
 
 #endif
 
