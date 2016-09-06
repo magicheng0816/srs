@@ -383,24 +383,27 @@ void SrsIngestSrsInput::dirty_all_ts()
 int SrsIngestSrsInput::fetch_all_ts(bool fresh_m3u8)
 {
     int ret = ERROR_SUCCESS;
-    
+    srs_trace("111");
     for (int i = 0; i < (int)pieces.size(); i++) {
         SrsTsPiece* tp = pieces.at(i);
         
         // when skipped, ignore.
         if (tp->skip) {
+            srs_trace("222");
             continue;
         }
         
         // for the fresh m3u8, skip except the last one.
         if (fresh_m3u8 && i != (int)pieces.size() - 1) {
             tp->skip = true;
+            srs_trace("333");
             continue;
         }
         
         if ((ret = tp->fetch(in_hls->get_url())) != ERROR_SUCCESS) {
             srs_error("fetch ts %s for error. ret=%d", tp->url.c_str(), ret);
             tp->skip = true;
+            srs_trace("444");
             return ret;
         }
         
