@@ -882,26 +882,25 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
     SrsJsonObject* req_info = info->to_object();
     
     SrsJsonAny* req_cmd = NULL;
-    if ((req_cmd = req_info->ensure_property_integer("cmd")) == NULL) {
+    if ((req_cmd = req_info->ensure_property_string("cmd")) == NULL) {
         srs_error("client body is no cmd param");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
     SrsJsonAny* req_input = NULL;
-    if ((req_input = req_info->ensure_property_integer("input")) == NULL) {
+    if ((req_input = req_info->ensure_property_string("input")) == NULL) {
         srs_error("client body is no input param");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
     SrsJsonAny* req_output = NULL;
-    if ((req_output = req_info->ensure_property_integer("output")) == NULL) {
+    if ((req_output = req_info->ensure_property_string("output")) == NULL) {
         srs_error("client body is no output param");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
-    srs_error("input:%s, output:%s", req_input->to_str(), req_output->to_str());
+    srs_trace("hls2rtmp invoke, input:%s, output:%s", req_input->to_str().c_str(), req_output->to_str().c_str());
 
-#if 1
     SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
     if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str())) {
         srs_error("client params is invalid");
@@ -910,7 +909,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
     }
 
     hls2rtmp->start();
-#endif    
+  
     return srs_go_http_error(w, SRS_CONSTS_HTTP_OK);;
 }
 
