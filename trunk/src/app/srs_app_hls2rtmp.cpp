@@ -48,6 +48,7 @@ using namespace std;
 #include <srs_raw_avc.hpp>
 #include <srs_app_http_conn.hpp>
 #include <srs_app_hls2rtmp.hpp>
+#include <srs_lib_md5.hpp>
 
 #if defined(SRS_AUTO_HTTP_CORE)
 
@@ -1185,7 +1186,7 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri, string body)
         return ret;
     }
 
-    content = new string(body.c_str());
+    content = string(body.c_str());
     sprintf(buf, "%s-%s", hlsuri.c_str(), rtmpuri.c_str());
     id = get_md5(buf, strlen(buf));
     
@@ -1217,8 +1218,10 @@ int SrsHls2Rtmp::cycle()
 {
     int ret = ingest_context->proxy();
     if (ERROR_SUCCESS != ret) {
-        pthread->stop_loop();
+        pthread->stop();
     }
+
+    return ret;
 }
 
 void SrsHls2Rtmp::on_thread_stop()
