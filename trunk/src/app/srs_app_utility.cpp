@@ -1550,8 +1550,7 @@ string srs_get_md5(char* data, int len)
     MD5_Update(&c, data, len);
     MD5_Final(md5,&c);  
 
-
-    for (i = 0; i < 16; ++i) {
+    for (int i = 0; i < 16; ++i) {
         sprintf((char *)tmp + (2 * i), "%02x", md5[i]);
     }
 
