@@ -940,8 +940,8 @@ int SrsTsAdaptationField::decode(SrsStream* stream)
     // be 183.
     if (packet->adaption_field_control == SrsTsAdaptationFieldTypeAdaptionOnly && adaption_field_length != 183) {
         ret = ERROR_STREAM_CASTER_TS_AF;
-        adaption_field_length = 183;
         srs_error("ts: demux af length failed, must be 183, actual=%d. ret=%d", adaption_field_length, ret);
+        adaption_field_length = 183; //add by huheng for letv hls_creater bug
         //return ret;
     }
     

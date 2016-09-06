@@ -1170,10 +1170,11 @@ SrsHls2Rtmp::~SrsHls2Rtmp()
     srs_freep(pthread);
 }
 
-int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri)
+int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri, string body)
 {
     int ret = ERROR_SUCCESS;
-
+    char buf[1024] = {0};
+    
     if ((ret = hls_uri.initialize(hlsuri)) != ERROR_SUCCESS) {
         srs_error("hls uri invalid. ret=%d", ret);
         return ret;
@@ -1184,6 +1185,10 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri)
         return ret;
     }
 
+    content = new string(body.c_str());
+    sprintf(buf, "%s-%s", hlsuri.c_str(), rtmpuri.c_str());
+    id = get_md5(buf, strlen(buf));
+    
     ingest_context = new SrsIngestSrsContext(&hls_uri, &rtmp_uri);
     
     return ERROR_SUCCESS;
@@ -1210,12 +1215,15 @@ void SrsHls2Rtmp::stop()
 
 int SrsHls2Rtmp::cycle()
 {
-    return ingest_context->proxy();
+    int ret = ingest_context->proxy();
+    if (ERROR_SUCCESS != ret) {
+        pthread->stop_loop();
+    }
 }
 
 void SrsHls2Rtmp::on_thread_stop()
 {
-
+    
 }
     
 #endif

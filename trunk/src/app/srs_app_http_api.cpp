@@ -881,35 +881,44 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
     // response standard object, format in json: {"code": 0, "data": ""}
     SrsJsonObject* req_info = info->to_object();
     
-    SrsJsonAny* req_cmd = NULL;
-    if ((req_cmd = req_info->ensure_property_string("cmd")) == NULL) {
-        srs_error("client body is no cmd param");
+    SrsJsonAny* req_action = NULL;
+    if ((req_action = req_info->ensure_property_string("action")) == NULL) {
+        srs_error("no action in client json content");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
     SrsJsonAny* req_input = NULL;
     if ((req_input = req_info->ensure_property_string("input")) == NULL) {
-        srs_error("client body is no input param");
+        srs_error("no input in client json content");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
     SrsJsonAny* req_output = NULL;
     if ((req_output = req_info->ensure_property_string("output")) == NULL) {
-        srs_error("client body is no output param");
+        srs_error("no output in client json content");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
-    srs_trace("hls2rtmp invoke, input:%s, output:%s", req_input->to_str().c_str(), req_output->to_str().c_str());
+    srs_trace("hls2rtmp invoke, action:%s, input:%s, output:%s", req_action->to_str().c_str(), 
+        req_input->to_str().c_str(), req_output->to_str().c_str());
 
-    SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
-    if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str())) {
-        srs_error("client params is invalid");
-        delete hls2rtmp;
-        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+    if ("start" == req_action->to_str()) {
+        SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
+        if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str())) {
+            srs_error("input or output is invalid url");
+            delete hls2rtmp;
+            return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+        }
+        
+        hls2rtmp->start();
+        
+    } else if ("end" == req_action->to_str()) {
+
+    } else {
+        srs_error("action is invalid");
+        return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);        
     }
 
-    hls2rtmp->start();
-  
     return srs_go_http_error(w, SRS_CONSTS_HTTP_OK);;
 }
 

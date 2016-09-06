@@ -157,18 +157,22 @@ public:
     virtual int proxy();
 };
 
-class SrsHls2Rtmp : public ISrsReusableThreadHandler
+class SrsHls2Rtmp : public ISrsReusableThreadHandler, public ISrsAppTransferTask
 {
 private:
     SrsReusableThread* pthread;
     SrsHttpUri hls_uri;
     SrsHttpUri rtmp_uri;
     SrsIngestSrsContext* ingest_context;
+    string content;
+    string id;
     
 public:
     SrsHls2Rtmp();
     ~SrsHls2Rtmp();
-    int initialize(string hlsuri, string rtmpuri);
+    int initialize(string hlsuri, string rtmpuri, string body);
+    virtual string getId() {return id;}
+    virtual string getContent() {return content;}
     virtual int start();
     virtual void stop();
     virtual int cycle();
