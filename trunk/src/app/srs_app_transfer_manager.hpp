@@ -5,7 +5,7 @@
     
 class SrsAppTransferManager
 {
-private:
+public:
     static std::vector<SrsHls2Rtmp*> hls2rtmps;
     
 public:
