@@ -4,11 +4,17 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <dirent.h>
+#include <sys/stat.h>
+
 using namespace std;
 
 #include <srs_kernel_error.hpp>
 #include <srs_app_server.hpp>
 #include <srs_app_log.hpp>
+#include <srs_core_autofree.hpp>
+#include <srs_protocol_json.hpp>
+#include <srs_app_utility.hpp>
 #include <srs_app_transfer_manager.hpp>
 
 
