@@ -91,7 +91,7 @@ int SrsAppTransferManager::initialize()
 
         memset(file, 0, 512);        
         snprintf(file, sizeof(buf), "%s/%s", SRS_TRANSFER_TASK_FILE_DIR, ent->d_name);
-        FILE* fp = fopen(file, O_RDONLY);
+        FILE* fp = fopen(file, "r");
 
         if (fp) {
             memset(buf, 0, 8192); 
