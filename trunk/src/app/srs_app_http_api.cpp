@@ -43,7 +43,7 @@ using namespace std;
 #include <srs_app_source.hpp>
 #include <srs_app_http_conn.hpp>
 #include <srs_app_hls2rtmp.hpp>
-#include <srs_app_transfer_manager>
+#include <srs_app_transfer_manager.hpp>
 
 int srs_api_response_jsonp(ISrsHttpResponseWriter* w, string callback, string data)
 {

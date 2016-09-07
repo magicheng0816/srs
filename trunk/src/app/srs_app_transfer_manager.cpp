@@ -9,7 +9,7 @@ using namespace std;
 #include <srs_kernel_error.hpp>
 #include <srs_app_server.hpp>
 #include <srs_app_log.hpp>
-#include <srs_app_transfer_manager>
+#include <srs_app_transfer_manager.hpp>
 
 
 #define SRS_TRANSFER_TASK_FILE_DIR "/letv/fet/live/srs_transfer/"
