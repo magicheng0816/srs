@@ -852,8 +852,9 @@ SrsGoHls2Rtmp::~SrsGoHls2Rtmp()
 int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
 {
     int ret = ERROR_SUCCESS;
-
+    
     std::string body;
+    std::string body2;
     if ((ret = r->body_read_all(body)) != ERROR_SUCCESS) {
         srs_error("read client body error");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
@@ -866,6 +867,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
     }
     
     // parse string res to json.
+    body2 = body;
     SrsJsonAny* info = SrsJsonAny::loads((char*)body.c_str());
     if (!info) {
         srs_error("parse client body error1");
@@ -908,9 +910,9 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
             srs_error("repeat transfer request");
             return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
         }
- srs_trace("body:%s", body.c_str());       
+ srs_trace("body:%s", body2.c_str());       
         SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
-        if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), body)) {
+        if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), body2)) {
             srs_error("input or output is invalid url");
             delete hls2rtmp;
             return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
