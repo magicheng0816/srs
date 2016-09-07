@@ -866,7 +866,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
     snprintf(buf, 8192, "%s", body.c_str());
-  srs_trace("body222:%s temp:%s", body.c_str(), temp.c_str());
+
 
     // parse string res to json.
     SrsJsonAny* info = SrsJsonAny::loads((char*)body.c_str());
@@ -875,7 +875,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
     SrsAutoFree(SrsJsonAny, info);
-  srs_trace("body333:%s temp:%s", body.c_str(), temp.c_str());
+
     // response error code in string.
     if (!info->is_object()) {
         srs_error("parse client body error2");
