@@ -1185,14 +1185,14 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri, string body)
         srs_error("rtmp uri invalid. ret=%d", ret);
         return ret;
     }
-
-    if ((ret = _transfer_manager->add_hls2rtmp_task(this)) != ERROR_SUCCESS) {
-        return ret;
-    }
     
     content = string(body.c_str());
     snprintf(buf, 1024, "%s-%s", hlsuri.c_str(), rtmpuri.c_str());
     id = srs_get_md5(buf, strlen(buf));
+
+    if ((ret = _transfer_manager->add_hls2rtmp_task(this)) != ERROR_SUCCESS) {
+        return ret;
+    }
     
     ingest_context = new SrsIngestSrsContext(&hls_uri, &rtmp_uri);
     
