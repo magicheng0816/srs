@@ -1186,7 +1186,7 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri, string body)
         return ret;
     }
 
-    if ((ret = SrsAppTransferManager::add_hls2rtmp_task(this)) != ERROR_SUCCESS) {
+    if ((ret = _transfer_manager->add_hls2rtmp_task(this)) != ERROR_SUCCESS) {
         return ret;
     }
     
@@ -1230,7 +1230,7 @@ int SrsHls2Rtmp::cycle()
 
 void SrsHls2Rtmp::on_thread_stop()
 {
-    SrsAppTransferManager::del_hls2rtmp_task(this);
+    _transfer_manager->del_hls2rtmp_task(this);
 }
     
 #endif

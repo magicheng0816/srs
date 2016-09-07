@@ -904,7 +904,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         req_input->to_str().c_str(), req_output->to_str().c_str());
 
     if ("start" == req_action->to_str()) {
-        if (NULL != SrsAppTransferManager::get_hls2rtmp_task(req_input->to_str(), req_output->to_str())) {
+        if (NULL != _transfer_manager->get_hls2rtmp_task(req_input->to_str(), req_output->to_str())) {
             srs_error("repeat transfer request");
             return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
         }
@@ -919,7 +919,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         hls2rtmp->start();
         
     } else if ("end" == req_action->to_str()) {
-        SrsHls2Rtmp* hls2rtmp = SrsAppTransferManager::get_hls2rtmp_task(req_input->to_str(), req_output->to_str());
+        SrsHls2Rtmp* hls2rtmp = _transfer_manager->get_hls2rtmp_task(req_input->to_str(), req_output->to_str());
 
         if (NULL == hls2rtmp) {
             srs_error("can not find transfer task to stop");

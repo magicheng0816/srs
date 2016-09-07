@@ -5,18 +5,20 @@
     
 class SrsAppTransferManager
 {
-public:
-    static std::vector<SrsHls2Rtmp*> hls2rtmps;
+private:
+    std::vector<SrsHls2Rtmp*> hls2rtmps;
     
 public:
     SrsAppTransferManager();
     ~SrsAppTransferManager();
-    static int initialize();
-    static int write_task_file(ISrsAppTransferTask* task);
-    static int rm_task_file(ISrsAppTransferTask* task);
-    static int add_hls2rtmp_task(SrsHls2Rtmp* hls2rtmp);
-    static int del_hls2rtmp_task(SrsHls2Rtmp* hls2rtmp);
-    static SrsHls2Rtmp* get_hls2rtmp_task(string hlsuri, string rtmpuri);
+    int initialize();
+    int write_task_file(ISrsAppTransferTask* task);
+    int rm_task_file(ISrsAppTransferTask* task);
+    int add_hls2rtmp_task(SrsHls2Rtmp* hls2rtmp);
+    int del_hls2rtmp_task(SrsHls2Rtmp* hls2rtmp);
+    SrsHls2Rtmp* get_hls2rtmp_task(string hlsuri, string rtmpuri);
 };
+
+extern SrsAppTransferManager* _transfer_manager;
 
 #endif
