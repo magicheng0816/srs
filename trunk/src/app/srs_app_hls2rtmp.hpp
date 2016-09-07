@@ -7,6 +7,7 @@
 #include <srs_kernel_ts.hpp>
 #include <srs_raw_avc.hpp>
 #include <srs_app_http_conn.hpp>
+#include <srs_rtmp_stack.hpp>
 #include <srs_app_transfer_task.hpp>
 
 class ISrsAacHandler

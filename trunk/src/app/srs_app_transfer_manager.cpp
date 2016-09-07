@@ -2,10 +2,13 @@
 
 #include <stdlib.h>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <map>
 #include <dirent.h>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 using namespace std;
 
@@ -36,7 +39,7 @@ int SrsAppTransferManager::write_task_file(ISrsAppTransferTask* task)
 
     sprintf(file, "%s/%s", SRS_TRANSFER_TASK_FILE_DIR, task->getId().c_str());
     
-    int fd = open(file, O_WRONLY | O_CREAT);
+    int fd = ::open(file, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR |  S_IRGRP | S_IROTH);
     if (fd < 0) {
         srs_error("open task file failed, file=%s", file);
         return -1;
@@ -71,7 +74,6 @@ int SrsAppTransferManager::initialize()
 {
     DIR* dir;
     struct dirent* ent;
-    char* endptr;
     char file[512];
     char buf[8192]; 
     
@@ -177,7 +179,7 @@ SrsHls2Rtmp* SrsAppTransferManager::get_hls2rtmp_task(string hlsuri, string rtmp
 
     for (std::vector<SrsHls2Rtmp*>::iterator it = hls2rtmps.begin(); it != hls2rtmps.end(); ++it) {
         SrsHls2Rtmp* hls2rtmp = *it;
-        if (hls2rtmp->getId().equal(id)) {
+        if (hls2rtmp->getId() == id) {
             return hls2rtmp;
         }
     }
