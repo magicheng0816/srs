@@ -47,6 +47,9 @@ int SrsAppTransferManager::write_task_file(ISrsAppTransferTask* task)
     }
 
     int size = task->getContent().length();
+
+srs_trace("content:%s size:%d", task->getContent().c_str(), size); 
+
     if (write(fd, task->getContent().c_str(), size) != size) {
         srs_error("write task file failed, file=%s", file);
         close(fd);

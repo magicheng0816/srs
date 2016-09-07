@@ -908,7 +908,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
             srs_error("repeat transfer request");
             return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
         }
-        
+ srs_trace("body:%s", body.c_str());       
         SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
         if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), body)) {
             srs_error("input or output is invalid url");

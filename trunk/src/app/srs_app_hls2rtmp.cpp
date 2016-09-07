@@ -1187,6 +1187,7 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri, string body)
     }
     
     content = string(body.c_str());
+srs_trace("content:%s", content.c_str());      
     snprintf(buf, 1024, "%s-%s", hlsuri.c_str(), rtmpuri.c_str());
     id = srs_get_md5(buf, strlen(buf));
 
