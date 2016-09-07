@@ -859,7 +859,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         srs_error("read client body error");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
- srs_trace("body111:%s", body.c_str());       
+     
     // should never be empty.
     if (body.empty()) {
         srs_error("client body is empty");
@@ -890,19 +890,19 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         srs_error("no action in client json content");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
- srs_trace("body444:%s", body.c_str());
+
     SrsJsonAny* req_input = NULL;
     if ((req_input = req_info->ensure_property_string("input")) == NULL) {
         srs_error("no input in client json content");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
- srs_trace("body555:%s", body.c_str());
+
     SrsJsonAny* req_output = NULL;
     if ((req_output = req_info->ensure_property_string("output")) == NULL) {
         srs_error("no output in client json content");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
- srs_trace("body666:%s", body.c_str());
+
     srs_trace("hls2rtmp invoke by request, action:%s, input:%s, output:%s", req_action->to_str().c_str(), 
         req_input->to_str().c_str(), req_output->to_str().c_str());
 
@@ -911,7 +911,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
             srs_error("repeat transfer request");
             return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
         }
- srs_trace("body:%s", body.c_str());       
+      
         SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
         if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), string(buf))) {
             srs_error("input or output is invalid url");

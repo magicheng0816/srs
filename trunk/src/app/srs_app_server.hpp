@@ -306,6 +306,7 @@ public:
     virtual int register_signal();
     virtual int http_handle();
     virtual int ingest();
+    virtual int transfer();
     virtual int cycle();
 // IConnectionManager
 public:

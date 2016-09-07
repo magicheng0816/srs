@@ -48,6 +48,7 @@ using namespace std;
 #include <srs_app_statistic.hpp>
 #include <srs_app_caster_flv.hpp>
 #include <srs_core_mem_watch.hpp>
+#include <srs_app_transfer_manager.hpp>
 
 // signal defines.
 #define SIGNAL_RELOAD SIGHUP
@@ -847,6 +848,18 @@ int SrsServer::ingest()
         return ret;
     }
 #endif
+
+    return ret;
+}
+
+int SrsServer::transfer()
+{
+    int ret = ERROR_SUCCESS;
+    
+    if ((ret = _transfer_manager->initialize()) != ERROR_SUCCESS) {
+        srs_error("recover transfer streams failed. ret=%d", ret);
+        return ret;
+    }
 
     return ret;
 }

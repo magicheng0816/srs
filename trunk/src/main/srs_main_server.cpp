@@ -398,6 +398,10 @@ int run_master()
     if ((ret = _srs_server->ingest()) != ERROR_SUCCESS) {
         return ret;
     }
+
+    if ((ret = _srs_server->transfer()) != ERROR_SUCCESS) {
+        return ret;
+    }
     
     if ((ret = _srs_server->cycle()) != ERROR_SUCCESS) {
         return ret;
