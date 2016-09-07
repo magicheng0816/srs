@@ -20,7 +20,7 @@ using namespace std;
 #include <srs_app_utility.hpp>
 #include <srs_app_transfer_manager.hpp>
 
-#define SRS_TRANSFER_TASK_FILE_DIR "/letv/fet/live/srs_transfer/"
+#define SRS_TRANSFER_TASK_FILE_DIR "/letv/fet/live/srs_transfer"
 
 SrsAppTransferManager* _transfer_manager = new SrsAppTransferManager();
 
