@@ -854,6 +854,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
     int ret = ERROR_SUCCESS;
     
     std::string body;
+    std::string temp;
     if ((ret = r->body_read_all(body)) != ERROR_SUCCESS) {
         srs_error("read client body error");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
@@ -864,7 +865,9 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         srs_error("client body is empty");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
-  srs_trace("body222:%s", body.c_str());   
+    temp = string(body); 
+  srs_trace("body222:%s temp:%s", body.c_str(), temp.c_str());
+
     // parse string res to json.
     SrsJsonAny* info = SrsJsonAny::loads((char*)body.c_str());
     if (!info) {
@@ -872,7 +875,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
     SrsAutoFree(SrsJsonAny, info);
-  srs_trace("body333:%s", body.c_str());   
+  srs_trace("body333:%s temp:%s", body.c_str(), temp.c_str());
     // response error code in string.
     if (!info->is_object()) {
         srs_error("parse client body error2");
@@ -910,7 +913,7 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         }
  srs_trace("body:%s", body.c_str());       
         SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
-        if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), body)) {
+        if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), temp)) {
             srs_error("input or output is invalid url");
             delete hls2rtmp;
             return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
