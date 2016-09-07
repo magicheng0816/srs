@@ -88,11 +88,13 @@ int SrsAppTransferManager::initialize()
         if (0 == strcmp(ent->d_name, ".") || 0 == strcmp(ent->d_name, "..") || DT_DIR == ent->d_type) {
 			continue;
 		}
-                
+
+        memset(file, 0, 512);        
         snprintf(file, sizeof(buf), "%s/%s", SRS_TRANSFER_TASK_FILE_DIR, ent->d_name);
         FILE* fp = fopen(file, O_RDONLY);
 
         if (fp) {
+            memset(buf, 0, 8192); 
             if (fgets(buf, sizeof(buf), fp) != NULL) {
                 SrsJsonAny* info = SrsJsonAny::loads(buf);
                 if (!info) {
