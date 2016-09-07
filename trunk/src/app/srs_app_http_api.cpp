@@ -865,9 +865,10 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         srs_error("client body is empty");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
+
+    r->body_read_all(body2);
     
     // parse string res to json.
-    body2 = body;
     SrsJsonAny* info = SrsJsonAny::loads((char*)body.c_str());
     if (!info) {
         srs_error("parse client body error1");
