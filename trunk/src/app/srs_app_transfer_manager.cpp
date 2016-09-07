@@ -84,7 +84,7 @@ int SrsAppTransferManager::initialize()
     }
 
     while((ent = readdir(dir)) != NULL) {        
-        if ((ent->d_name == ".") || (ent->d_name == "..") || ent->d_type == DT_DIR) {
+        if (0 == strcmp(ent->d_name, ".") || 0 == strcmp(ent->d_name, "..") || DT_DIR == ent->d_type) {
 			continue;
 		}
                 
