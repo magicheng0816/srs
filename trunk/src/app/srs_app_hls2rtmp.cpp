@@ -47,6 +47,7 @@ using namespace std;
 #include <srs_rtmp_amf0.hpp>
 #include <srs_raw_avc.hpp>
 #include <srs_app_http_conn.hpp>
+#include <srs_app_transfer_manager>
 #include <srs_app_hls2rtmp.hpp>
 
 #if defined(SRS_AUTO_HTTP_CORE)
@@ -1185,8 +1186,12 @@ int SrsHls2Rtmp::initialize(string hlsuri, string rtmpuri, string body)
         return ret;
     }
 
+    if ((ret = SrsAppTransferManager::add_hls2rtmp_task(this)) != ERROR_SUCCESS) {
+        return ret;
+    }
+    
     content = string(body.c_str());
-    sprintf(buf, "%s-%s", hlsuri.c_str(), rtmpuri.c_str());
+    snprintf(buf, 1024, "%s-%s", hlsuri.c_str(), rtmpuri.c_str());
     id = srs_get_md5(buf, strlen(buf));
     
     ingest_context = new SrsIngestSrsContext(&hls_uri, &rtmp_uri);
@@ -1225,7 +1230,7 @@ int SrsHls2Rtmp::cycle()
 
 void SrsHls2Rtmp::on_thread_stop()
 {
-    
+    SrsAppTransferManager::del_hls2rtmp_task(this);
 }
     
 #endif

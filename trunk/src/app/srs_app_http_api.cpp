@@ -43,6 +43,7 @@ using namespace std;
 #include <srs_app_source.hpp>
 #include <srs_app_http_conn.hpp>
 #include <srs_app_hls2rtmp.hpp>
+#include <srs_app_transfer_manager>
 
 int srs_api_response_jsonp(ISrsHttpResponseWriter* w, string callback, string data)
 {
@@ -899,10 +900,15 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
     }
 
-    srs_trace("hls2rtmp invoke, action:%s, input:%s, output:%s", req_action->to_str().c_str(), 
+    srs_trace("hls2rtmp invoke by request, action:%s, input:%s, output:%s", req_action->to_str().c_str(), 
         req_input->to_str().c_str(), req_output->to_str().c_str());
 
     if ("start" == req_action->to_str()) {
+        if (NULL != SrsAppTransferManager::get_hls2rtmp_task(req_input->to_str(), req_output->to_str())) {
+            srs_error("repeat transfer request");
+            return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+        }
+        
         SrsHls2Rtmp* hls2rtmp = new SrsHls2Rtmp();
         if (ERROR_SUCCESS != hls2rtmp->initialize(req_input->to_str(), req_output->to_str(), body)) {
             srs_error("input or output is invalid url");
@@ -913,7 +919,16 @@ int SrsGoHls2Rtmp::serve_http(ISrsHttpResponseWriter* w, ISrsHttpMessage* r)
         hls2rtmp->start();
         
     } else if ("end" == req_action->to_str()) {
+        SrsHls2Rtmp* hls2rtmp = SrsAppTransferManager::get_hls2rtmp_task(req_input->to_str(), req_output->to_str());
 
+        if (NULL == hls2rtmp) {
+            srs_error("can not find transfer task to stop");
+            return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);
+        }
+
+        hls2rtmp->stop();
+        delete hls2rtmp;
+        
     } else {
         srs_error("action is invalid");
         return srs_go_http_error(w, SRS_CONSTS_HTTP_BadRequest);        
